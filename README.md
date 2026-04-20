@@ -1,9 +1,3 @@
-## Informasi Mahasiswa
-Nama     : Dimas Rofi' Purnomo 
-NIM      :242410102062     
-Kelas    :PAA (A)          
-
-
 ## Sewa iPhone API
 
 REST API untuk sistem manajemen **Sewa iPhone** berbasis Laravel. Mencakup pengelolaan pelanggan, unit iPhone, transaksi sewa, dan pembayaran.
@@ -261,6 +255,6 @@ Semua query database menggunakan **Eloquent ORM** dengan **parameter binding** o
 
 ## Video Presentasi
 
-> Link video: **[Tambahkan link YouTube di sini setelah upload]**
+> Link video: 
 
 ---
