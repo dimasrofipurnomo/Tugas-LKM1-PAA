@@ -69,8 +69,8 @@ sewa-iphone/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/dimasrofipurnomo/sewa-iphone.git
-cd sewa-iphone
+git clone https://github.com/dimasrofipurnomo/Tugas-LKM1-PAA.git
+cd Tugas-LKM1-PAA/sewa-iphone
 ```
 
 ### 2. Install Dependencies
