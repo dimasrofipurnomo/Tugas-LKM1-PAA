@@ -245,12 +245,10 @@ psql -U postgres -d sewa_iphone_db -f database.sql
 
 ## Video Presentasi
 
-<<<<<<< HEAD
 Link video:
 
 ```
 https://youtu.be/Iy0XK5HGKHo
 ```
-=======
 
 ---
