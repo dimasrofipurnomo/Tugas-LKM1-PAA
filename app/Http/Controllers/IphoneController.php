@@ -18,14 +18,14 @@ class IphoneController extends Controller
     {
         $perPage   = $request->query('per_page', 10);
         $status    = $request->query('status');
-        $condition = $request->query('condition');
+        $kondisi   = $request->query('kondisi');
         $search    = $request->query('search');
 
         $query = Iphone::query();
 
-        if ($status)    $query->where('status', $status);
-        if ($condition) $query->where('condition', $condition);
-        if ($search)    $query->where('model', 'like', "%$search%");
+        if ($status)  $query->where('status', $status);
+        if ($kondisi) $query->where('kondisi', $kondisi);
+        if ($search)  $query->where('model', 'like', "%$search%");
 
         $iphones = $query->orderBy('model')->paginate($perPage);
 
@@ -63,21 +63,21 @@ class IphoneController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'model'       => 'required|string|max:100',
-            'storage'     => 'required|in:' . implode(',', self::VALID_STORAGES),
-            'color'       => 'required|string|max:50',
-            'condition'   => 'required|in:' . implode(',', self::VALID_CONDITIONS),
-            'daily_price' => 'required|numeric|min:0',
+            'model'   => 'required|string|max:100',
+            'storage' => 'required|in:' . implode(',', self::VALID_STORAGES),
+            'color'   => 'required|string|max:50',
+            'kondisi' => 'required|in:' . implode(',', self::VALID_CONDITIONS),
+            'price'   => 'required|numeric|min:0',
         ], [
-            'model.required'       => 'Model iPhone wajib diisi',
-            'storage.required'     => 'Kapasitas storage wajib diisi',
-            'storage.in'           => 'Storage tidak valid. Pilih: 64GB, 128GB, 256GB, 512GB',
-            'color.required'       => 'Warna wajib diisi',
-            'condition.required'   => 'Kondisi wajib diisi',
-            'condition.in'         => 'Kondisi tidak valid. Pilih: baru, baik, cukup',
-            'daily_price.required' => 'Harga sewa per hari wajib diisi',
-            'daily_price.numeric'  => 'Harga harus berupa angka',
-            'daily_price.min'      => 'Harga tidak boleh negatif',
+            'model.required'   => 'Model iPhone wajib diisi',
+            'storage.required' => 'Kapasitas storage wajib diisi',
+            'storage.in'       => 'Storage tidak valid. Pilih: 64GB, 128GB, 256GB, 512GB',
+            'color.required'   => 'Warna wajib diisi',
+            'kondisi.required' => 'Kondisi wajib diisi',
+            'kondisi.in'       => 'Kondisi tidak valid. Pilih: baru, baik, cukup',
+            'price.required'   => 'Harga sewa wajib diisi',
+            'price.numeric'    => 'Harga harus berupa angka',
+            'price.min'        => 'Harga tidak boleh negatif',
         ]);
 
         if ($validator->fails()) {
@@ -88,12 +88,12 @@ class IphoneController extends Controller
         }
 
         $iphone = Iphone::create([
-            'model'       => $request->model,
-            'storage'     => $request->storage,
-            'color'       => $request->color,
-            'condition'   => $request->condition,
-            'daily_price' => $request->daily_price,
-            'status'      => 'tersedia',
+            'model'   => $request->model,
+            'storage' => $request->storage,
+            'color'   => $request->color,
+            'kondisi' => $request->kondisi,
+            'price'   => $request->price,
+            'status'  => 'tersedia',
         ]);
 
         return response()->json([
@@ -115,18 +115,20 @@ class IphoneController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'model'       => 'required|string|max:100',
-            'storage'     => 'required|in:' . implode(',', self::VALID_STORAGES),
-            'color'       => 'required|string|max:50',
-            'condition'   => 'required|in:' . implode(',', self::VALID_CONDITIONS),
-            'daily_price' => 'required|numeric|min:0',
-            'status'      => 'required|in:' . implode(',', self::VALID_STATUSES),
+            'model'   => 'required|string|max:100',
+            'storage' => 'required|in:' . implode(',', self::VALID_STORAGES),
+            'color'   => 'required|string|max:50',
+            'kondisi' => 'required|in:' . implode(',', self::VALID_CONDITIONS),
+            'price'   => 'required|numeric|min:0',
+            'status'  => 'required|in:' . implode(',', self::VALID_STATUSES),
         ], [
-            'model.required'       => 'Model iPhone wajib diisi',
-            'storage.in'           => 'Storage tidak valid. Pilih: 64GB, 128GB, 256GB, 512GB',
-            'condition.in'         => 'Kondisi tidak valid. Pilih: baru, baik, cukup',
-            'daily_price.required' => 'Harga sewa per hari wajib diisi',
-            'status.in'            => 'Status tidak valid. Pilih: tersedia, disewa, maintenance',
+            'model.required'   => 'Model iPhone wajib diisi',
+            'storage.in'       => 'Storage tidak valid. Pilih: 64GB, 128GB, 256GB, 512GB',
+            'kondisi.in'       => 'Kondisi tidak valid. Pilih: baru, baik, cukup',
+            'price.required'   => 'Harga sewa wajib diisi',
+            'price.numeric'    => 'Harga harus berupa angka',
+            'price.min'        => 'Harga tidak boleh negatif',
+            'status.in'        => 'Status tidak valid. Pilih: tersedia, disewa, maintenance',
         ]);
 
         if ($validator->fails()) {
@@ -137,7 +139,7 @@ class IphoneController extends Controller
         }
 
         $iphone->update($request->only([
-            'model', 'storage', 'color', 'condition', 'daily_price', 'status',
+            'model', 'storage', 'color', 'kondisi', 'price', 'status',
         ]));
 
         return response()->json([

@@ -59,7 +59,6 @@ class PaymentController extends Controller
             'rental_id' => 'required|integer|exists:rentals,id',
             'amount'    => 'required|numeric|min:0',
             'method'    => 'required|in:cash,transfer,qris',
-            'notes'     => 'nullable|string',
         ], [
             'rental_id.required' => 'ID rental wajib diisi',
             'rental_id.exists'   => 'Rental tidak ditemukan',
@@ -90,7 +89,6 @@ class PaymentController extends Controller
             'amount'    => $request->amount,
             'method'    => $request->method,
             'status'    => 'pending',
-            'notes'     => $request->notes,
         ]);
 
         return response()->json([

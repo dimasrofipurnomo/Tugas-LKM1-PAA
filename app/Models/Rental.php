@@ -2,44 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Rental extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'iphone_id',
         'start_date',
         'end_date',
-        'duration_days',
         'total_price',
         'status',
-        'notes',
     ];
 
     protected $casts = [
-        'start_date'    => 'date',
-        'end_date'      => 'date',
-        'total_price'   => 'decimal:2',
-        'duration_days' => 'integer',
+        'start_date'  => 'date',
+        'end_date'    => 'date',
+        'total_price' => 'decimal:2',
     ];
 
-    // Relasi ke customer
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'user_id');
     }
 
-    // Relasi ke iphone
     public function iphone()
     {
         return $this->belongsTo(Iphone::class);
     }
 
-    // Relasi ke payment
     public function payment()
     {
         return $this->hasOne(Payment::class);

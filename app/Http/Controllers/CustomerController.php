@@ -62,7 +62,7 @@ class CustomerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'    => 'required|string|max:150',
-            'email'   => 'required|email|unique:customers,email',
+            'email'   => 'required|email|unique:users,email',
             'phone'   => 'required|string|max:20',
             'address' => 'nullable|string',
         ], [
@@ -102,7 +102,7 @@ class CustomerController extends Controller
  
         $validator = Validator::make($request->all(), [
             'name'    => 'required|string|max:150',
-            'email'   => "required|email|unique:customers,email,$id",
+            'email'   => "required|email|unique:users,email,$id",
             'phone'   => 'required|string|max:20',
             'address' => 'nullable|string',
         ], [

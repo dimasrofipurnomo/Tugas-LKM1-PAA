@@ -60,14 +60,15 @@ class RentalController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id' => 'required|integer',
-            'iphone_id'   => 'required|integer',
-            'start_date'  => 'required|date|after_or_equal:today',
-            'end_date'    => 'required|date|after:start_date',
-            'notes'       => 'nullable|string',
+            'user_id'   => 'required|integer|exists:users,id',
+            'iphone_id' => 'required|integer|exists:iphones,id',
+            'start_date'=> 'required|date|after_or_equal:today',
+            'end_date'  => 'required|date|after:start_date',
         ], [
-            'customer_id.required' => 'ID customer wajib diisi',
+            'user_id.required' => 'ID user wajib diisi',
+            'user_id.exists'   => 'User tidak ditemukan',
             'iphone_id.required'   => 'ID iPhone wajib diisi',
+            'iphone_id.exists'     => 'iPhone tidak ditemukan',
             'start_date.required'  => 'Tanggal mulai wajib diisi',
             'start_date.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini',
             'end_date.required'    => 'Tanggal selesai wajib diisi',
@@ -82,11 +83,11 @@ class RentalController extends Controller
         }
 
         // Validasi customer
-        $customer = Customer::find($request->customer_id);
+        $customer = Customer::find($request->user_id);
         if (!$customer) {
             return response()->json([
                 'status'  => 'error',
-                'message' => "Customer dengan ID {$request->customer_id} tidak ditemukan",
+                'message' => "User dengan ID {$request->user_id} tidak ditemukan",
             ], 404);
         }
 
@@ -110,20 +111,17 @@ class RentalController extends Controller
         $startDate    = Carbon::parse($request->start_date);
         $endDate      = Carbon::parse($request->end_date);
         $durationDays = $startDate->diffInDays($endDate);
-        $totalPrice   = $durationDays * $iphone->daily_price;
+        $totalPrice   = $durationDays * $iphone->price;
 
         DB::beginTransaction();
         try {
-            // Buat rental
             $rental = Rental::create([
-                'customer_id'   => $request->customer_id,
-                'iphone_id'     => $request->iphone_id,
-                'start_date'    => $request->start_date,
-                'end_date'      => $request->end_date,
-                'duration_days' => $durationDays,
-                'total_price'   => $totalPrice,
-                'status'        => 'aktif',
-                'notes'         => $request->notes,
+                'user_id'    => $request->user_id,
+                'iphone_id'  => $request->iphone_id,
+                'start_date' => $request->start_date,
+                'end_date'   => $request->end_date,
+                'total_price'=> $totalPrice,
+                'status'     => 'aktif',
             ]);
 
             // Update status iPhone jadi disewa
@@ -190,7 +188,6 @@ class RentalController extends Controller
         try {
             $rental->update(['status' => $request->status]);
 
-            // Bebaskan iPhone jika rental selesai atau dibatalkan
             if (in_array($request->status, ['selesai', 'dibatalkan'])) {
                 $rental->iphone->update(['status' => 'tersedia']);
             }
