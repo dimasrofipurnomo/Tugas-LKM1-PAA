@@ -152,7 +152,7 @@ Tabel yang akan dibuat:
 | PUT    | `/api/customers/{id}` | Update data pelanggan |
 | DELETE | `/api/customers/{id}` | Hapus pelanggan (soft delete) |
 
-### 📱 iPhones (Unit iPhone)
+### iPhones (Unit iPhone)
 
 | Method | URL | Keterangan |
 |--------|-----|------------|
