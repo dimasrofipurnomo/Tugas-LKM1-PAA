@@ -1,7 +1,7 @@
 ## Informasi Mahasiswa
-| Nama  | Dimas Rofi' Purnomo |
-| NIM   | 242410102062        |
-| Kelas | PAA (A)             |
+Nama     : Dimas Rofi' Purnomo 
+NIM      :242410102062     
+Kelas    :PAA (A)          
 
 
 ## Sewa iPhone API
