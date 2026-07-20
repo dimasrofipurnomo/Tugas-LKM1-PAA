@@ -240,15 +240,3 @@ psql -U postgres -d sewa_iphone_db -f database.sql
 * Menggunakan Eloquent ORM (mencegah SQL Injection)
 * Validasi input di setiap endpoint
 * Soft delete menggunakan `deleted_at`
-
----
-
-## Video Presentasi
-
-Link video:
-
-```
-https://youtu.be/Iy0XK5HGKHo
-```
-
----
